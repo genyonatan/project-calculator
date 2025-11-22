@@ -29,3 +29,6 @@ function operate(operator, a, b) {
       break;
   }
 }
+
+const calcGrid = document.querySelector(".calc-btns");
+const numericBtns = document.createElement(div);
