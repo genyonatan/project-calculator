@@ -10,6 +10,19 @@ body {
   padding: 5%;
 }
 
+.promptDiv {
+  margin: 5% auto;
+  display: flex;
+  justify-content: center;
+  background-color: whitesmoke;
+  max-width: 500px;
+  border-left: 15px solid black;
+  padding: min(1rem, 6%);
+
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: x-large;
+}
+
 .calculator-container {
   box-shadow: 0 0 8px rgb(161, 160, 160);
   background-color: slategray;
