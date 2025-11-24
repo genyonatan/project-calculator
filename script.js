@@ -20,7 +20,7 @@ promptEl.textContent = initialPrompt;
 const displayEl = document.querySelector("#display");
 const calBtns = document.querySelector(".calc-btns");
 const operationBadge = document.querySelector("#operation");
-operationBadge.style.display = "none";
+const powerBtn = document.querySelector("#powerBtn");
 
 function add(a, b) {
   return a + b;
@@ -54,19 +54,21 @@ function operate(operator, a, b) {
   }
 }
 
-displayEl.addEventListener("click", () => {
+powerBtn.addEventListener("click", () => {
   switch (calcState) {
     case calcStates.offState: // to turn the calculator On.
       displayEl.classList.add("displayOn");
+      operationBadge.classList.add("displayOn");
       promptEl.textContent = "enter a number";
       calcState = calcStates.initialInputState;
       break;
     default: //to turn the calculator Off.
       calcState = calcStates.offState;
       promptEl.textContent = initialPrompt;
-      operationBadge.style.display = "none";
       displayEl.textContent = "";
-      displayEl.classList.toggle("displayOn");
+      operationBadge.textContent = "";
+      displayEl.classList.remove("displayOn");
+      operationBadge.classList.remove("displayOn");
       break;
   }
 });
@@ -100,7 +102,6 @@ calBtns.addEventListener("click", (e) => {
           calcState = calcStates.operandInputState;
           calData.isDecimal = false;
           operationBadge.textContent = `${calData.firstInput} `;
-          operationBadge.style.display = "flex";
           console.log(calData.firstInput);
         } else {
           console.log("field empty!");
