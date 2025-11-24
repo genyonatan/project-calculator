@@ -12,6 +12,7 @@ body {
 
 .calculator-container {
   box-shadow: 0 0 8px rgb(161, 160, 160);
+  background-color: slategray;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -24,12 +25,12 @@ body {
 }
 
 .calculator-display {
-  box-shadow: 0 0 8px rgb(214, 134, 134);
+  box-shadow: 0 0 8px rgb(136, 135, 135);
   flex: 1;
   width: 100%;
   min-height: 100px;
   border-radius: 8px;
-  background-color: whitesmoke;
+  background-color: darkseagreen;
   align-content: center;
 
   padding: min(2rem, 10%);
@@ -37,9 +38,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: end;
-}
 
-.displaySymbols {
   font-size: x-large;
   font-weight: bold;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -47,6 +46,7 @@ body {
 
 .calc-btns {
   box-shadow: 0 0 8px rgb(145, 143, 143);
+  background-color: white;
   flex: 3;
   width: 100%;
   max-width: 495px;
