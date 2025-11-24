@@ -13,7 +13,7 @@ let calData = {
 };
 
 let calcState = calcStates.offState;
-initialPrompt = "Click on Display to start";
+initialPrompt = "Click The Power Button to start";
 
 const promptEl = document.querySelector("#promptEl");
 promptEl.textContent = initialPrompt;
@@ -64,6 +64,10 @@ powerBtn.addEventListener("click", () => {
       break;
     default: //to turn the calculator Off.
       calcState = calcStates.offState;
+      calData.firstInput = 0;
+      calData.secondInput = 0;
+      calData.isDecimal = false;
+      calData.operator = "";
       promptEl.textContent = initialPrompt;
       displayEl.textContent = "";
       operationBadge.textContent = "";
@@ -79,11 +83,13 @@ calBtns.addEventListener("click", (e) => {
       case calcStates.initialInputState:
         let num = e.target.textContent;
         displayEl.textContent += num;
+        promptEl.textContent = "press equal sign when done";
         break;
 
       case calcStates.secondInputState:
         let num2 = e.target.textContent;
         displayEl.textContent += num2;
+        promptEl.textContent = "press equal sign when done";
         break;
 
       case calcStates.operandInputState:
@@ -109,17 +115,19 @@ calBtns.addEventListener("click", (e) => {
         break;
 
       case calcStates.operandInputState:
-        calData.operator = displayEl.textContent;
-        displayEl.textContent = "";
-        operationBadge.textContent = `${calData.firstInput} ${calData.operator} `;
+        if (calData.operator !== "") {
+          calData.operator = displayEl.textContent;
+          displayEl.textContent = "";
+          operationBadge.textContent = `${calData.firstInput} ${calData.operator} `;
 
-        promptEl.textContent = "Enter the second number: ";
-        calcState = calcStates.secondInputState;
-        console.log(calData.operator);
+          promptEl.textContent = "Enter the second number: ";
+          calcState = calcStates.secondInputState;
+          console.log(calData.operator);
+        }
         break;
 
       case calcStates.secondInputState:
-        if (!displayEl.textContent == "") {
+        if (displayEl.textContent !== "") {
           calData.secondInput = parseFloat(displayEl.textContent);
           operationBadge.textContent += `${calData.secondInput} = `;
           displayEl.textContent = operate(
@@ -130,9 +138,10 @@ calBtns.addEventListener("click", (e) => {
           calData.firstInput = parseFloat(displayEl.textContent);
           operationBadge.textContent += `${calData.firstInput}`;
 
-          promptEl.textContent = "Solution :";
+          promptEl.textContent = `press operator to continue`;
           calcState = calcStates.operandInputState;
           calData.isDecimal = false;
+          calData.operator = "";
           console.log(calData.secondInput);
           console.log(`= ${calData.firstInput}`);
         } else {
@@ -147,7 +156,7 @@ calBtns.addEventListener("click", (e) => {
       case calcStates.initialInputState:
         if (!calData.isDecimal) {
           displayEl.textContent += ".";
-          isDecimal = true;
+          calData.isDecimal = true;
         } else {
           console.log("already Decimal!");
         }
@@ -155,7 +164,7 @@ calBtns.addEventListener("click", (e) => {
       case calcStates.secondInputState:
         if (!calData.isDecimal) {
           displayEl.textContent += ".";
-          isDecimal = true;
+          calData.isDecimal = true;
         } else {
           console.log("already Decimal!");
         }
@@ -167,6 +176,8 @@ calBtns.addEventListener("click", (e) => {
     switch (calcState) {
       case calcStates.operandInputState:
         displayEl.textContent = e.target.textContent;
+        calData.operator = e.target.textContent;
+        promptEl.textContent = "press equal sign when done";
         break;
     }
   }
