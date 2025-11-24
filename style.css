@@ -83,13 +83,13 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   transition: 0.3s;
 }
+.calcBtnCells:hover {
+  cursor: pointer;
+  filter: brightness(90%);
+}
 
 .calcBtnCells:active {
   filter: brightness(50%);
-}
-
-.calcBtnCells:hover {
-  cursor: pointer;
 }
 
 .numericBtns,

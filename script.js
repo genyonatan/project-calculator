@@ -1,3 +1,18 @@
+let calcState = {
+  offState: "OFF",
+  initialInputState: "FIRST INPUT",
+  operandInputState: "OPERATOR INPUT",
+  secondInputState: "SECOND INPUT",
+};
+
+isDecimal = true;
+initialPrompt = "Clcik on Display to start";
+
+const promptEl = document.querySelector(".promptDiv");
+promptEl.textContent = initialPrompt;
+const displayEl = document.querySelector(".calculatory-display");
+const calBtns = document.querySelector(".calc-btns");
+
 function add(a, b) {
   return a + b;
 }
