@@ -7,12 +7,10 @@
     <title>Calculator</title>
   </head>
   <body>
-    <div class="promptDiv"></div>
+    <div id="promptEl" class="promptDiv"></div>
+    <div class="promptDiv" id="operation"></div>
     <div class="calculator-container">
-      <div id="display" class="calculator-display">
-        <div id="resultDisplay" class="displayCells"></div>
-        <div id="inputDisplay" class="displayCells"></div>
-      </div>
+      <div id="display" class="calculator-display"></div>
       <div class="calc-btns">
         <div id="num1" class="calcBtnCells numericBtns">1</div>
         <div id="num2" class="calcBtnCells numericBtns">2</div>
@@ -30,7 +28,7 @@
         <div id="dotBtn" class="calcBtnCells symbols">.</div>
         <div id="equalsBtn" class="calcBtnCells symbols">=</div>
         <div id="divisionBtn" class="calcBtnCells operator">/</div>
-        <div id="clearBtn" class="calcBtnCells clearBtn">c</div>
+        <div id="clearBtn" class="calcBtnCells clearBtn">C</div>
       </div>
     </div>
     <script src="script.js"></script>

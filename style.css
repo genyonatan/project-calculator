@@ -117,4 +117,6 @@ body {
   grid-column-start: span 4;
   min-height: 100px;
   background-color: tomato;
+  font-weight: bold;
+  color: whitesmoke;
 }

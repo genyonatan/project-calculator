@@ -15,10 +15,12 @@ let calData = {
 let calcState = calcStates.offState;
 initialPrompt = "Click on Display to start";
 
-const promptEl = document.querySelector(".promptDiv");
+const promptEl = document.querySelector("#promptEl");
 promptEl.textContent = initialPrompt;
 const displayEl = document.querySelector("#display");
 const calBtns = document.querySelector(".calc-btns");
+const operationBadge = document.querySelector("#operation");
+operationBadge.style.display = "none";
 
 function add(a, b) {
   return a + b;
@@ -62,6 +64,7 @@ displayEl.addEventListener("click", () => {
     default: //to turn the calculator Off.
       calcState = calcStates.offState;
       promptEl.textContent = initialPrompt;
+      operationBadge.style.display = "none";
       displayEl.textContent = "";
       displayEl.classList.toggle("displayOn");
       break;
@@ -96,6 +99,8 @@ calBtns.addEventListener("click", (e) => {
           promptEl.textContent = "enter an operator:";
           calcState = calcStates.operandInputState;
           calData.isDecimal = false;
+          operationBadge.textContent = `${calData.firstInput} `;
+          operationBadge.style.display = "flex";
           console.log(calData.firstInput);
         } else {
           console.log("field empty!");
@@ -105,6 +110,7 @@ calBtns.addEventListener("click", (e) => {
       case calcStates.operandInputState:
         calData.operator = displayEl.textContent;
         displayEl.textContent = "";
+        operationBadge.textContent = `${calData.firstInput} ${calData.operator} `;
 
         promptEl.textContent = "Enter the second number: ";
         calcState = calcStates.secondInputState;
@@ -114,12 +120,14 @@ calBtns.addEventListener("click", (e) => {
       case calcStates.secondInputState:
         if (!displayEl.textContent == "") {
           calData.secondInput = parseFloat(displayEl.textContent);
+          operationBadge.textContent += `${calData.secondInput} = `;
           displayEl.textContent = operate(
             calData.operator,
             calData.firstInput,
             calData.secondInput
           );
           calData.firstInput = parseFloat(displayEl.textContent);
+          operationBadge.textContent += `${calData.firstInput}`;
 
           promptEl.textContent = "Solution :";
           calcState = calcStates.operandInputState;
@@ -174,6 +182,7 @@ calBtns.addEventListener("click", (e) => {
         calData.operator = "";
 
         displayEl.textContent = "";
+        operationBadge.textContent = "";
         promptEl.textContent = "enter a number";
         calcState = calcStates.initialInputState;
         break;
