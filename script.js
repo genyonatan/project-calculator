@@ -17,7 +17,7 @@ initialPrompt = "Click on Display to start";
 
 const promptEl = document.querySelector(".promptDiv");
 promptEl.textContent = initialPrompt;
-const displayEl = document.querySelector(".calculator-display");
+const displayEl = document.querySelector("#display");
 const calBtns = document.querySelector(".calc-btns");
 
 function add(a, b) {
@@ -158,6 +158,24 @@ calBtns.addEventListener("click", (e) => {
     switch (calcState) {
       case calcStates.operandInputState:
         displayEl.textContent = e.target.textContent;
+        break;
+    }
+  }
+
+  if (e.target.classList.contains("clearBtn")) {
+    switch (calcState) {
+      case calcStates.offState:
+        console.log("switch it on first!");
+        break;
+      default:
+        calData.firstInput = 0;
+        calData.secondInput = 0;
+        calData.isDecimal = false;
+        calData.operator = "";
+
+        displayEl.textContent = "";
+        promptEl.textContent = "enter a number";
+        calcState = calcStates.initialInputState;
         break;
     }
   }
