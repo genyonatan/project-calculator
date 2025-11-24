@@ -29,7 +29,7 @@ body {
   width: 100%;
   min-height: 100px;
   border-radius: 8px;
-  background-color: rgb(253, 251, 251);
+  background-color: whitesmoke;
   align-content: center;
 
   padding: min(2rem, 10%);
@@ -75,6 +75,10 @@ body {
   filter: brightness(50%);
 }
 
+.calcBtnCells:hover {
+  cursor: pointer;
+}
+
 .numericBtns,
 .operator,
 .symbols {
@@ -86,7 +90,10 @@ body {
 }
 
 .symbols {
-  background-color: darkgrey;
+  background-color: rgb(128, 128, 128);
+  color: white;
+  font-weight: bolder;
+  font-size: xx-large;
 }
 
 .clearBtn {
