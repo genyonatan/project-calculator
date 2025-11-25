@@ -101,7 +101,7 @@ calBtns.addEventListener("click", (e) => {
           promptEl.textContent = "enter an operator";
           operationDisplay.textContent = calData.firstInput;
         } else {
-          calData.firstInput = 0;
+          // calData.firstInput = 0;
           promptEl.textContent = "enter an operator";
           operationDisplay.textContent = calData.firstInput;
         }
