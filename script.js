@@ -1,7 +1,6 @@
 let calcStates = {
   offState: "OFF",
   initialInputState: "FIRST INPUT",
-  operandInputState: "OPERATOR INPUT",
   secondInputState: "SECOND INPUT",
 };
 
@@ -19,7 +18,7 @@ const promptEl = document.querySelector("#promptEl");
 promptEl.textContent = initialPrompt;
 const displayEl = document.querySelector("#display");
 const calBtns = document.querySelector(".calc-btns");
-const operationBadge = document.querySelector("#operation");
+const operationDisplay = document.querySelector("#operation");
 const powerBtn = document.querySelector("#powerBtn");
 
 function add(a, b) {
@@ -35,7 +34,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  return a / b;
+  return a !== 0 ? a / b : "can't divide by zero";
 }
 
 function operate(operator, a, b) {
@@ -58,7 +57,7 @@ powerBtn.addEventListener("click", () => {
   switch (calcState) {
     case calcStates.offState: // to turn the calculator On.
       displayEl.classList.add("displayOn");
-      operationBadge.classList.add("displayOn");
+      operationDisplay.classList.add("displayOn");
       promptEl.textContent = "enter a number";
       calcState = calcStates.initialInputState;
       break;
@@ -70,9 +69,9 @@ powerBtn.addEventListener("click", () => {
       calData.operator = "";
       promptEl.textContent = initialPrompt;
       displayEl.textContent = "";
-      operationBadge.textContent = "";
+      operationDisplay.textContent = "";
       displayEl.classList.remove("displayOn");
-      operationBadge.classList.remove("displayOn");
+      operationDisplay.classList.remove("displayOn");
       break;
   }
 });
@@ -91,59 +90,54 @@ calBtns.addEventListener("click", (e) => {
         displayEl.textContent += num2;
         promptEl.textContent = "press equal sign when done";
         break;
-
-      case calcStates.operandInputState:
-        console.log("invalid input!");
-        break;
     }
   }
 
   if (e.target.id === "equalsBtn") {
     switch (calcState) {
       case calcStates.initialInputState:
-        if (!displayEl.textContent == "") {
+        if (displayEl.textContent !== "") {
           calData.firstInput = parseFloat(displayEl.textContent);
-          displayEl.textContent = "";
-          promptEl.textContent = "enter an operator:";
-          calcState = calcStates.operandInputState;
-          calData.isDecimal = false;
-          operationBadge.textContent = `${calData.firstInput} `;
-          console.log(calData.firstInput);
+          promptEl.textContent = "enter an operator";
+          operationDisplay.textContent = calData.firstInput;
         } else {
-          console.log("field empty!");
-        }
-        break;
-
-      case calcStates.operandInputState:
-        if (calData.operator !== "") {
-          calData.operator = displayEl.textContent;
-          displayEl.textContent = "";
-          operationBadge.textContent = `${calData.firstInput} ${calData.operator} `;
-
-          promptEl.textContent = "Enter the second number: ";
-          calcState = calcStates.secondInputState;
-          console.log(calData.operator);
+          calData.firstInput = 0;
+          promptEl.textContent = "enter an operator";
+          operationDisplay.textContent = calData.firstInput;
         }
         break;
 
       case calcStates.secondInputState:
         if (displayEl.textContent !== "") {
-          calData.secondInput = parseFloat(displayEl.textContent);
-          operationBadge.textContent += `${calData.secondInput} = `;
-          displayEl.textContent = operate(
-            calData.operator,
-            calData.firstInput,
-            calData.secondInput
-          );
-          calData.firstInput = parseFloat(displayEl.textContent);
-          operationBadge.textContent += `${calData.firstInput}`;
+          if (calData.operator == "/" && calData.secondInput == 0) {
+            operationDisplay.textContent = "Error!";
+            displayEl.textContent = "";
+            calcState = calcStates.initialInputState;
+            calData.firstInput = 0;
+            calData.secondInput = 0;
+            calData.isDecimal = false;
+            calData.operator = "";
+            promptEl.textContent = "enter a number :";
+          } else {
+            calData.secondInput = parseFloat(displayEl.textContent);
+            operationDisplay.textContent += `${calData.secondInput} = `;
+            displayEl.textContent = operate(
+              calData.operator,
+              calData.firstInput,
+              calData.secondInput
+            );
+            calData.firstInput = parseFloat(displayEl.textContent);
 
-          promptEl.textContent = `press operator to continue`;
-          calcState = calcStates.operandInputState;
-          calData.isDecimal = false;
-          calData.operator = "";
-          console.log(calData.secondInput);
-          console.log(`= ${calData.firstInput}`);
+            operationDisplay.textContent += `${calData.firstInput}`;
+            promptEl.textContent = `solution: `;
+            displayEl.textContent = "";
+
+            calcState = calcStates.initialInputState;
+            calData.isDecimal = false;
+            calData.operator = "";
+            console.log(calData.secondInput);
+            console.log(`= ${calData.firstInput}`);
+          }
         } else {
           console.log("field empty!");
         }
@@ -174,10 +168,29 @@ calBtns.addEventListener("click", (e) => {
 
   if (e.target.classList.contains("operator")) {
     switch (calcState) {
-      case calcStates.operandInputState:
-        displayEl.textContent = e.target.textContent;
-        calData.operator = e.target.textContent;
-        promptEl.textContent = "press equal sign when done";
+      case calcStates.initialInputState:
+        if (displayEl.textContent !== "") {
+          calData.firstInput = parseFloat(displayEl.textContent);
+          calData.operator = e.target.textContent;
+
+          displayEl.textContent = "";
+          operationDisplay.textContent = `${calData.firstInput} ${calData.operator}`;
+          promptEl.textContent = "enter the second number";
+
+          calData.isDecimal = false;
+          calcState = calcStates.secondInputState;
+          console.log(calData.firstInput);
+        } else {
+          calData.operator = e.target.textContent;
+
+          displayEl.textContent = "";
+          operationDisplay.textContent = `${calData.firstInput} ${calData.operator}`;
+          promptEl.textContent = "enter the second number";
+
+          calData.isDecimal = false;
+          calcState = calcStates.secondInputState;
+          console.log(calData.firstInput);
+        }
         break;
     }
   }
@@ -194,7 +207,7 @@ calBtns.addEventListener("click", (e) => {
         calData.operator = "";
 
         displayEl.textContent = "";
-        operationBadge.textContent = "";
+        operationDisplay.textContent = "";
         promptEl.textContent = "enter a number";
         calcState = calcStates.initialInputState;
         break;
