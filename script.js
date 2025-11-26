@@ -34,19 +34,19 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  return a !== 0 ? a / b : "can't divide by zero";
+  return a / b;
 }
 
 function operate(operator, a, b) {
   switch (operator) {
     case "+":
-      return add(a, b);
+      return Math.round(add(a, b) * 1000) / 1000;
     case "-":
-      return subtract(a, b);
+      return Math.round(subtract(a, b) * 1000) / 1000;
     case "x":
-      return multiply(a, b);
+      return Math.round(multiply(a, b) * 1000) / 1000;
     case "/":
-      return divide(a, b);
+      return Math.round(divide(a, b) * 1000) / 1000;
     default:
       alert("no operator selected!");
       break;
@@ -109,6 +109,7 @@ calBtns.addEventListener("click", (e) => {
 
       case calcStates.secondInputState:
         if (displayEl.textContent !== "") {
+          calData.secondInput = parseFloat(displayEl.textContent);
           if (calData.operator == "/" && calData.secondInput == 0) {
             operationDisplay.textContent = "Error!";
             displayEl.textContent = "";
@@ -119,8 +120,7 @@ calBtns.addEventListener("click", (e) => {
             calData.operator = "";
             promptEl.textContent = "enter a number :";
           } else {
-            calData.secondInput = parseFloat(displayEl.textContent);
-            operationDisplay.textContent += `${calData.secondInput} = `;
+            operationDisplay.textContent += ` ${calData.secondInput} = `;
             displayEl.textContent = operate(
               calData.operator,
               calData.firstInput,
@@ -190,6 +190,40 @@ calBtns.addEventListener("click", (e) => {
           calData.isDecimal = false;
           calcState = calcStates.secondInputState;
           console.log(calData.firstInput);
+        }
+        break;
+
+      case calcStates.secondInputState:
+        if (displayEl.textContent !== "") {
+          calData.secondInput = parseFloat(displayEl.textContent);
+          if (calData.operator == "/" && calData.secondInput == 0) {
+            operationDisplay.textContent = "Error can't divide by zero!";
+            calcState = calcStates.initialInputState;
+            calData.firstInput = 0;
+            calData.secondInput = 0;
+            calData.isDecimal = false;
+            calData.operator = "";
+            promptEl.textContent = "enter a number :";
+          } else {
+            operationDisplay.textContent = operate(
+              calData.operator,
+              calData.firstInput,
+              calData.secondInput
+            );
+            calData.firstInput = parseFloat(operationDisplay.textContent);
+            operationDisplay.textContent += ` ${e.target.textContent}`;
+            promptEl.textContent = `solution: `;
+            displayEl.textContent = "";
+
+            calcState = calcStates.secondInputState;
+            calData.isDecimal = false;
+            calData.operator = e.target.textContent;
+            console.log(calData.secondInput);
+            console.log(`= ${calData.firstInput}`);
+          }
+        } else {
+          calData.operator = e.target.textContent;
+          operationDisplay.textContent = `${calData.firstInput} ${calData.operator}`;
         }
         break;
     }
