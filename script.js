@@ -78,18 +78,20 @@ powerBtn.addEventListener("click", () => {
 
 calBtns.addEventListener("click", (e) => {
   if (e.target.classList.contains("numericBtns")) {
-    switch (calcState) {
-      case calcStates.initialInputState:
-        let num = e.target.textContent;
-        displayEl.textContent += num;
-        promptEl.textContent = "press equal sign when done";
-        break;
+    if (displayEl.textContent.length <= 20) {
+      switch (calcState) {
+        case calcStates.initialInputState:
+          let num = e.target.textContent;
+          displayEl.textContent += num;
+          promptEl.textContent = "press equal sign when done";
+          break;
 
-      case calcStates.secondInputState:
-        let num2 = e.target.textContent;
-        displayEl.textContent += num2;
-        promptEl.textContent = "press equal sign when done";
-        break;
+        case calcStates.secondInputState:
+          let num2 = e.target.textContent;
+          displayEl.textContent += num2;
+          promptEl.textContent = "press equal sign when done";
+          break;
+      }
     }
   }
 
